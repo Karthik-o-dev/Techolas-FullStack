@@ -1,0 +1,18 @@
+* {
+    margin: 0;
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 50px;
+    background-color: aqua;
+}
+
+.head nav ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+
+}
