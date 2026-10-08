@@ -65,8 +65,6 @@ export const App = () => {
       handleCounter(2)
     }}>Counter two</button>
 
-    <ChildComponent>
-
-    </ChildComponent>
+    <ChildComponent />
   </Fragment>
 }

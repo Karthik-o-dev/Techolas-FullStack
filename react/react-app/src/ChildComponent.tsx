@@ -5,6 +5,8 @@
 //     data: string;
 // }
 
+
+
 // export const ChildComponet = ({ p1, p2, children, data }: Props) => {
 
 //     const handleButton = function (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
@@ -24,15 +26,20 @@
 //     </div>
 // }
 
+import { useState } from "react";
+
 export const ChildComponent = () => {
 
-    const handleMode = () => {
+    const [darkMode, setDarkMode] = useState(false);
 
+    const handleMode = () => {
+        setDarkMode(!darkMode);
     }
 
-    return <div>
+    return <div className={`h-screen flex flex-col items-center justify-center
+    ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
 
         <p>bulb</p>
         <button onClick={handleMode}>Click to change mode</button>
-    </div>
+    </div >
 }
