@@ -56,14 +56,14 @@ export const App = () => {
   }
 
   return <Fragment>
-    <p>counter_one:{counter.counter_one} </p>
+    {/* <p>counter_one:{counter.counter_one} </p>
     <p>counter_two: {counter.counter_two}</p>
 
 
     <button onClick={() => handleCounter(1)}>Counter one</button>
     <button onClick={function () {
       handleCounter(2)
-    }}>Counter two</button>
+    }}>Counter two</button> */}
 
     <ChildComponent />
   </Fragment>
