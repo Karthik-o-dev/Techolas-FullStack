@@ -7,7 +7,7 @@ export const TodoPage = () => {
     const [errorMessage, setErrorMessage] = useState<string>("")
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTodo(event.target.value.replaceAll(" ", "_"))
+        setTodo(event.target.value)
     }
 
     const handleAddTodo = () => {
@@ -32,13 +32,25 @@ export const TodoPage = () => {
             {errorMessage && <span>{errorMessage}</span>}
             <button className="bg-emerald-800 cursor-pointer text-white p-2 rounded-md" onClick={handleAddTodo}>Add Todo</button>
         </div>
-        <div className="w-full max-w-lg">
-            {
+        {
+            todoList.length === 0 ? <div className="mt-5 text-center w-full max-w-lg">List is empty</div> : <>
+                <h2 className=" text-start w-full max-w-lg mt-4">Total Todos: {todoList.length}</h2>
+                <div className="mt-5 flex flex-col gap-3 w-full max-w-lg rounded-md p-5">
+                    {
 
-                todoList.map((item, index) => {
-                    return <div key={index}>{item} - <button className="bg-red-400 text-white p-2 px-3 rounded-4xl" onClick={() => { handleDelete(index) }}>Delete Todo</button></div>
-                })
-            }
-        </div>
-    </div>
+                        todoList.map((item, index) => {
+                            return <div className="p-3 rounded-md flex flex-col shadow gap-2 shadow-black/30" key={index}>
+                                <span>{item}</span>
+                                <div className="flex gap-1">
+                                    <button className="bg-blue-400 cursor-pointer text-white p-2 px-4 rounded-md w-full">Completed</button>
+                                    <button className="bg-red-400 cursor-pointer text-white p-2 px-4 rounded-md w-full" onClick={() => { handleDelete(index) }}>Delete Todo</button>
+
+                                </div>
+                            </div>
+                        })
+                    }
+                </div>
+            </>
+        }
+    </div >
 }
