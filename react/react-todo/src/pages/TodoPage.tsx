@@ -1,19 +1,30 @@
 import { useState } from "react"
+import { TodoList } from "../components/todoLIst";
+import type { TodoObj } from "../types/todo";
 
 export const TodoPage = () => {
 
     const [todo, setTodo] = useState<string>("")
-    const [todoList, setTodoList] = useState<string[]>([])
+    const [todoList, setTodoList] = useState<TodoObj[]>([])
     const [errorMessage, setErrorMessage] = useState<string>("")
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTodo(event.target.value)
     }
 
+    const currentTime = new Date().toLocaleString("en-IN");
+
     const handleAddTodo = () => {
-        if (todo === "") return setErrorMessage("Task required")
-        if (todo.length < 10) return setErrorMessage("min 10 character required");
-        setTodoList([...todoList, todo]);
+        if (todo.trim() === "") return setErrorMessage("Task required")
+        if (todo.trim().length < 10) return setErrorMessage("min 10 character required");
+        const todoObj: TodoObj = {
+            id: crypto.randomUUID,
+            title: todo,
+            is_completed: false,
+            created_at: currentTime,
+            updated_at: currentTime
+        }
+        setTodoList([...todoList, todoObj]);
         setTodo("")
         setErrorMessage("")
     }
@@ -38,15 +49,8 @@ export const TodoPage = () => {
                 <div className="mt-5 flex flex-col gap-3 w-full max-w-lg rounded-md p-5">
                     {
 
-                        todoList.map((item, index) => {
-                            return <div className="p-3 rounded-md flex flex-col shadow gap-2 shadow-black/30" key={index}>
-                                <span>{item}</span>
-                                <div className="flex gap-1">
-                                    <button className="bg-blue-400 cursor-pointer text-white p-2 px-4 rounded-md w-full">Completed</button>
-                                    <button className="bg-red-400 cursor-pointer text-white p-2 px-4 rounded-md w-full" onClick={() => { handleDelete(index) }}>Delete Todo</button>
-
-                                </div>
-                            </div>
+                        todoList.map((item) => {
+                            return <TodoList item={item} key={item.id} todoList={todoList} setTodoList={setTodoList} />
                         })
                     }
                 </div>

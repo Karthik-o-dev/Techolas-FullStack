@@ -1,4 +1,4 @@
-import { TodoPage } from "./pages/TodoList"
+import { TodoPage } from "./pages/TodoPage"
 
 export const App = () => {
   return <TodoPage />
