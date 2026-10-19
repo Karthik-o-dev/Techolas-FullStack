@@ -7,6 +7,14 @@ type Props = {
 }
 
 export const TodoList = ({ item, todoList, setTodoList }: Props) => {
+
+    const handleDelete = (index: number) => {
+        const data = todoList.filter((_, idx) => {
+            return index != idx
+        });
+        setTodoList(data);
+    }
+
     return <div className="p-3 rounded-md flex flex-col shadow gap-2 shadow-black/30">
         <span>{item.title}</span>
         <span>{item.is_completed ? "Completed" : "pending"}</span>

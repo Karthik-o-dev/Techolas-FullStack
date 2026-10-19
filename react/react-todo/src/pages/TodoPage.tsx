@@ -29,12 +29,6 @@ export const TodoPage = () => {
         setErrorMessage("")
     }
 
-    const handleDelete = (index: number) => {
-        const data = todoList.filter((_, idx) => {
-            return index != idx
-        });
-        setTodoList(data);
-    }
 
     return <div className="font-mono flex flex-col items-center">
         <h1 className="font-bold text-3xl mt-3 underline">Todo List</h1>
