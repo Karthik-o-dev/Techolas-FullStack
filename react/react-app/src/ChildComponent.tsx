@@ -150,11 +150,18 @@ const reducer = (state: Counters, action: Action): Counters => {
     return state;
 }
 
+const handleDarkMode = (_state: string, action: string): string => {
+    return action;
+    // return action === "dark" ? "light" : "dark";
+}
+
 export const ChildComponent = () => {
 
     const [state, dispatch] = useReducer<Counters, [action: Action]>(reducer, { c1: 0, c2: 0 });
+    const [darkMode, dispatchDarkMode] = useReducer(handleDarkMode, "light");
 
-    return <div className="flex justify-center items-center h-screen flex-col">
+    return <div className={`flex justify-center items-center h-screen flex-col bg-${darkMode == "light" ? "white" : "black"} text-${darkMode == "light" ? "black" : "white "}`}>
+        <button className="text-4xl mb-4" onClick={() => dispatchDarkMode(darkMode === "dark" ? "light" : "dark")}>{darkMode}</button>
         <p className="text-6xl border border-gray-300 px-5 p-3 rounded-md">Value of c1 : {state.c1}</p>
         <p className="text-6xl border border-gray-300 px-5 p-3 rounded-md">Value of c2 : {state.c2}</p>
         <div className="flex gap-2 mt-5">
@@ -168,5 +175,5 @@ export const ChildComponent = () => {
             <button className="bg-blue-400 p-2 px-5 rounded-md" onClick={() => dispatch({ type: "RESET-2" })}>Reset-2</button>
         </div>
 
-    </div>
+    </div >
 }
