@@ -1,63 +1,47 @@
-// useEffect();
 import { useEffect, useState } from "react"
+import { getProduct } from "./services/product";
+import type { DummyJsonResponse, Product } from "./types/dummyJson";
+
+const limit = 30;
+
 export const App = () => {
+    const [products, setProduct] = useState<Product[]>([]);
+    const [page, setPage] = useState<number>(1);
+    const [totalPage, setTotalPage] = useState<number>(0)
 
-  type Product = {
-    title: string;
-    images: string[];
-  }
+    useEffect(() => {
+        (
+            async () => {
+                const response = await getProduct(limit, (page - 1) * limit);
+                if (!response.ok) {
+                    return alert(response.message)
+                }
+                const data = response.data as DummyJsonResponse;
+                const total_pages = Math.ceil(data.total / limit);
+                setProduct(data.products);
+                setTotalPage(total_pages);
+            }
+        )();
+    }, [page]);
 
-  const [counter1, setCounter1] = useState<number>(0);
-  const [counter2, setCounter2] = useState<number>(0);
-  const [timer, setTimer] = useState<number>(0)
-  const [product, setProduct] = useState<Product | null>(null);
-  const [productId, setProductId] = useState<number>(1);
-
-  // useEffect(() => {
-  //   console.log("mounted")
-  //   return () => {
-  //     console.log("unmounted")
-  //   }
-  // }, [counter1, counter2]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimer((timer) => timer + 1);
-    }, 1000);
-    return () => {
-      clearInterval(interval);
-    }
-  }, [counter1, counter2]);
-
-  const handleFetch = async () => {
-    try {
-      const response = await fetch(`https://dummyjson.com/products/${productId}`);
-      const data = await response.json();
-      setProduct(data);
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const generateRandomNumber = () => Math.floor(Math.random() * 194) + 1;
-
-  useEffect(() => {
-    handleFetch();
-  }, [productId]);
-
-  return <div className="flex justify-center h-screen items-center flex-col gap-3">
-    <div>Counter 1 : {counter1}</div>
-    <div>Counter 2 : {counter2}</div>
-    <div>Timer : {timer}</div>
-    <div>
-      <div className="h-95 w-95">
-        <img src={product?.images[0]} alt={product?.title} />
-      </div>
-      <div>Product Title: {product?.title} </div>
-      <button className="bg-blue-200 px-4 p-3 rounded-md" onClick={() => setProductId(generateRandomNumber())}>Random product</button>
+    return <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+            {
+                products.map(product => {
+                    return <div key={product.id}>
+                        <img src={product.images[0]} alt={product.title} />
+                        <h2>{product.title}</h2>
+                    </div>
+                })
+            }
+        </div>
+        <div className="flex justify-center gap-2">
+            {
+                new Array(totalPage).fill(0).map((_, index) => index + 1).map(number => {
+                    return <button onClick={() => setPage(number)} key={number} className="bg-amber-700 text-white w-10 h-10 rounded-full">{number}</button>
+                })
+            }
+        </div>
     </div>
-    <div className="flex gap-2">
-      <button className="bg-blue-200 px-4 p-3 rounded-md" onClick={() => setCounter1(counter1 + 1)}>Click 1</button>
-      <button className="bg-blue-200 px-4 p-3 rounded-md" onClick={() => setCounter2(counter2 + 1)}>Click 1</button></div>
-  </div>
+
 }
