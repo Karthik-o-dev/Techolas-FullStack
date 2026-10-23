@@ -26,15 +26,15 @@ export const App = () => {
         )();
     }, [page]);
 
-    return <div className="bg-gray-100 ">
-        {openModel && <div className="fixed top-0 left-0 flex justify-center items-center backdrop-blur-md bg-black/10 h-screen w-screen z-[1500px ]">
+    return <div className="bg-gray-100 p-5">
+        {openModel && <div className="fixed top-0 left-0 flex justify-center items-center backdrop-blur-md bg-black/10 h-screen w-screen z-2">
             <div className="bg-white w-full max-w-125 p-10 relative rounded-lg">
                 <button onClick={() => { setOpenMOdel(null); setProdImage(null); }} className="absolute top-2 right-2 bg-red-400 p-1 px-2 rounded-md cursor-pointer text-white">Close</button>
                 {prodImage && <img src={prodImage} alt="" />}
                 <div>
                     {openModel.title}
                 </div>
-                <div className="flex gap-2 mt-2 ">
+                <div className="flex gap-2 mt-2 overflow-auto scrollbar-none">
                     {
                         openModel.images.map((image, index) => {
                             return <img onMouseOver={() => setProdImage(image)} src={image} alt="" key={index} className="h-30 border border-gray-300 rounded-md" />
@@ -43,7 +43,7 @@ export const App = () => {
                 </div>
             </div>
         </div>}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-10 my-5 mx-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-10 mx-5">
             {
                 products.map(product => {
                     return <div key={product.id} onClick={() => {
@@ -56,7 +56,7 @@ export const App = () => {
                 })
             }
         </div>
-        <div className="flex justify-center gap-2">
+        <div className="flex justify-center gap-2 mt-5">
             {
                 new Array(totalPage).fill(0).map((_, index) => index + 1).map(number => {
                     return <button onClick={() => setPage(number)} key={number} className="bg-amber-700 text-white w-10 h-10 rounded-full">{number}</button>
