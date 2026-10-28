@@ -5,6 +5,7 @@ import { TopNavBar } from "./component/TopNavBar"
 import { ContactPage } from "./pages/ContactPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { ProductPage } from "./pages/ProductPage";
+import { SingleProduct } from "./pages/SingleProduct";
 
 export const RouteMap = {
   home: "/",
@@ -26,7 +27,7 @@ export const App = () => {
       <Route path={RouteMap.contact} Component={ContactPage} />
       <Route path={RouteMap.profile} Component={ProfilePage} />
       <Route path={RouteMap.product} Component={ProductPage} />
-      <Route path={RouteMap.profile} Component={ProfilePage} />
+      <Route path={RouteMap.singleProduct} Component={SingleProduct} />
 
     </Routes>
   </BrowserRouter>
