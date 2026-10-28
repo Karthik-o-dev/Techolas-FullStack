@@ -1,33 +1,19 @@
 import { createBrowserRouter, RouterProvider, type RouteObject } from "react-router"
 import { HomePage } from "./pages/HomePage"
 import { AboutPage } from "./pages/AboutPage";
-import { createContext, useState } from "react";
+import { CounterProvider } from "./providers/CounterProvider";
 
 const routesData: RouteObject[] = [
-  {
-    path: "/",
-    Component: HomePage
-  },
-  {
-    path: "/about",
-    Component: AboutPage
-  }]
-
-export type CounterContextType = {
-  counter: number;
-  setCounter: React.Dispatch<React.SetStateAction<number>>;
-
-}
+  { path: "/", Component: HomePage },
+  { path: "/about", Component: AboutPage }
+];
 
 const routes = createBrowserRouter(routesData);
 
-export const CounterContext = createContext<CounterContextType | null>(null)
 
 export const App = () => {
 
-  const [counter, setCounter] = useState(0);
-
-  return <CounterContext.Provider value={{ counter, setCounter }} >
+  return <CounterProvider>
     <RouterProvider router={routes} />
-  </CounterContext.Provider >
+  </CounterProvider>
 }
