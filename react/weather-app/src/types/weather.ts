@@ -19,12 +19,7 @@ type Current = {
         "text": string,
         "icon": string,
         "code": number
-    }
-}
-
-export type Weather = {
-    "location": Location,
-    "current": Current,
+    },
     "wind_mph": number,
     "wind_kph": number,
     "wind_degree": number,
@@ -58,4 +53,9 @@ export type Weather = {
     "diff_rad": number,
     "dni": number,
     "gti": number
+}
+
+export type Weather = {
+    "location": Location,
+    "current": Current
 }
