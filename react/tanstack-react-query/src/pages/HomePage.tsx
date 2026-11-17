@@ -1,39 +1,13 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { api } from "../lib/axios"
-import type { Users } from "../types/users";
+import { useNavigate } from "react-router";
+import { useUsersMutation, useUsersQuery } from "../hooks/reactQuery";
 
 export const HomePage = () => {
 
-    const queryClient = useQueryClient();
 
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ["users"],
-        queryFn: async () => {
-            const res = await api.get<Users>("/users");
-            return res.data
-        },
-        refetchOnWindowFocus: false,
-        enabled: true,
-        retry: 3
-    })
+    const navigate = useNavigate();
+    const { data, isLoading, isError } = useUsersQuery();
 
-    const { mutate } = useMutation({
-        mutationFn: async () => {
-            const response = await api.post("/users/add", {
-                firstName: 'Muhammad',
-                lastName: 'Ovi',
-                age: 250,
-                /* other user data */
-            });
-            return response.data;
-        },
-        onSuccess: () => {
-
-            queryClient.invalidateQueries({
-                queryKey: ["users"]
-            })
-        }
-    })
+    const { mutate } = useUsersMutation();
 
     if (isLoading) {
         return <div className="text-4xl flex justify-center items-center h-screen">....Loading</div>
@@ -49,8 +23,11 @@ export const HomePage = () => {
         </div>
         <div className="text-center">
             <button onClick={() => mutate()} className="bg-blue-300 p-2 px-4 rounded-md my-5 font-bold">Add User</button>
+        </div>
+        <div className="grid grid-cols-3 gap-3 m-2">
+
             {data?.users.map(user => {
-                return <div key={user.id}>{user.firstName} {user.lastName} {user.age}</div>
+                return <div onClick={() => navigate(`/user/${user.id}`)} key={user.id} className="border p-2 text-center rounded-md">{user.firstName} {user.lastName} {user.age}</div>
             })}
         </div>
     </div>
