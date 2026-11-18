@@ -1,29 +1,13 @@
-import { useQuery } from "@tanstack/react-query"
-import { api } from "../lib/axios"
-import type { Weather } from "../types/weather";
 import React, { useState } from "react";
+import { useForcastQuery, useWeatherQuery } from "../hooks/reactQuery";
 
 export const HomePage = () => {
 
     const [search, setSearch] = useState("");
     const [city, setCity] = useState("Kochi")
 
-    const { data, isError, isLoading } = useQuery({
-        queryKey: ["weather", city],
-        queryFn: async () => {
-            const res = await api.get<Weather>("/current.json", {
-                params: {
-                    key: import.meta.env.VITE_WEATHER_API_KEY,
-                    q: city
-                }
-            });
-            return res.data
-        },
-        refetchOnWindowFocus: false,
-        enabled: Boolean(city.trim()),
-        retry: 3,
-        staleTime: 1000 * 60
-    })
+    const { data, isError, isLoading } = useWeatherQuery(city);
+    const { data: forcastData } = useForcastQuery(city);
 
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -107,6 +91,26 @@ export const HomePage = () => {
                     <p className="text-2xl font-bold mt-1">
                         {data?.current.uv}
                     </p>
+                </div>
+            </div>
+        </div>
+
+        <div className="mt-5">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-5 text-center">Forcast</h1>
+
+            <div className="w-full bg-white/20 backdrop-blur-lg border border-white/30 rounded-3xl p-6 md:p-8 shadow-2xl text-white">
+                <div className="grid grid-cols-7 gap-4">
+                    {forcastData?.forecast.forecastday.map((day) => (
+                        <div key={day.date} className="bg-white/15 rounded-2xl p-4">
+                            <p>{day.date}</p>
+                            <p>{day.day.maxtemp_c}°C</p>
+                            <p>{day.day.mintemp_c}°C</p>
+                            <img
+                                src={`https:${day.day.condition.icon}`}
+                                alt={day.day.condition.text}
+                            />
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
