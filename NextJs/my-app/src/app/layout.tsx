@@ -1,14 +1,11 @@
 import React from "react";
 import "./globals.css"
+import { Header } from "@/component/header";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return <html>
     <body>
-      <header className="flex justify-center gap-10">
-        <li>home</li>
-        <li>About</li>
-        <li>Contact</li>
-      </header>
+      <Header />
       {children}
       <footer>
         <h1 className="text-center">This is the footer</h1>
