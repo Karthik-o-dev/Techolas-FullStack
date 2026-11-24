@@ -12,6 +12,7 @@ export const Header = () => {
             <Link href="/about">About</Link>
             <button onClick={() => router.push("/contact")}>Contact</button>
             <button onClick={() => router.push("/products")}>Products</button>
+            <button onClick={() => router.push("/api")}>Api</button>
         </nav>
     </header>
 }
