@@ -1,3 +1,4 @@
+import { Form } from "@/component/form";
 import { WeatherApi } from "@/lib/weather";
 import { error } from "console";
 import { Suspense } from "react";
@@ -19,11 +20,7 @@ async function WeatherData({ searchParams }: { searchParams: Promise<{ city: str
         </p>
       </div>
 
-      <form className="flex gap-2 w-full max-w-md mb-8">
-        <input type="text" name="city" placeholder="Search city..." className="flex-1 min-w-0 px-5 py-3 rounded-xl bg-white/95 outline-none focus:ring-2 focus:ring-blue-300 shadow-lg" />
-
-        <button type="submit" className="bg-slate-900 text-white px-5 py-3 rounded-xl font-semibold hover:bg-slate-700 transition shadow-lg">Search</button>
-      </form>
+      <Form />
 
       <div className="w-full max-w-md bg-white/20 backdrop-blur-lg border border-white/30 rounded-3xl p-6 md:p-8 shadow-2xl text-white">
         <div className="text-center">
